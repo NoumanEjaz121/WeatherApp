@@ -144,11 +144,14 @@ public class MainActivity extends AppCompatActivity {
                     String city = adr.getLocality();
                     if (city != null && !city.equals("")) {
                         cityName = city;
-                    } else {
-                        Log.d("TAG", "CITY NOT FOUND");
-                        Toast.makeText(this, "User City Not Found..", Toast.LENGTH_SHORT).show();
                     }
                 }
+            }
+            if(cityName.isEmpty())
+            {
+                Log.d("TAG", "CITY NOT FOUND");
+                Toast.makeText(this, "User City Not Found..", Toast.LENGTH_SHORT).show();
+
             }
         } catch (IOException e) {
             e.printStackTrace();
