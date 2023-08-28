@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView RVWeather;
     private WeatherRVAdapter weatherRVAdapter;
     private ArrayList<WeatherRVModel> weatherRVModelArrayList;
-    double lat, lon;
+    //double lat, lon;
     private LocationManager locationManager;
     private Location location;
     private int PERMISSION_CODE = 1;
@@ -72,8 +72,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         setContentView(R.layout.activity_main);
-
-        //gpsTracker = new GPSTracker(this);
 
         Home = findViewById(R.id.idHome);
         PBLoading = findViewById(R.id.idPBLoading);
@@ -100,9 +98,9 @@ public class MainActivity extends AppCompatActivity {
         location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if (location != null) {
             Toast.makeText(this,"Fetching Last known location",Toast.LENGTH_SHORT).show();
-            lat = location.getLatitude();
-            lon = location.getLongitude();
-            cityName = getCityName(lat, lon);
+            //lat = location.getLatitude();
+            //lon = location.getLongitude();
+            cityName = getCityName(location.getLatitude(), location.getLongitude());
             Log.d("TAGweather", "cityName: " + cityName);
             getWeatherInfo(cityName);
         }
@@ -135,12 +133,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private String getCityName(double lat,double lon) {
+    private String getCityName(double latitude,double longitude) {
         String cityName = "Not Found";
         Geocoder gcd = new Geocoder(getBaseContext(), Locale.getDefault());
 
         try {
-            List<Address> addresses = gcd.getFromLocation(lat, lon, 10);
+            List<Address> addresses = gcd.getFromLocation(latitude, longitude, 10);
             for (Address adr : addresses) {
                 if (adr != null) {
                     String city = adr.getLocality();
@@ -160,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getWeatherInfo(String cityName) {
-        String url = "http://api.weatherapi.com/v1/forecast.json?key=96809032fde84e07ac574717232308&q=" + cityName + "&days=1&aqi=no&alerts=no";
+        String url = "http://api.weatherapi.com/v1/forecast.json?key=96809032fde84e07ac574717232308&q="+cityName+"&days=1&aqi=no&alerts=no";
         TVCityName.setText(cityName);
         RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
 
